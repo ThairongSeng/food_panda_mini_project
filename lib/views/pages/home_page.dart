@@ -21,30 +21,6 @@ class HomePage extends StatelessWidget {
         toolbarHeight: 80,
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Colors.pinkAccent,
-        // bottom:  PreferredSize(
-        //   preferredSize: const Size.fromHeight(80) ,
-        //   child: Padding(
-        //     padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        //     child: Row(
-        //       children: [
-        //         Expanded(
-        //             child: CupertinoTextField(
-        //               padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 10),
-        //               placeholder: "Search for shops & restaurants",
-        //               prefix: const Padding(
-        //                 padding: EdgeInsets.only(left: 12.0),
-        //                 child: Icon(Icons.search),
-        //               ),
-        //               decoration: BoxDecoration(
-        //                 color: Colors.white,
-        //                 borderRadius: BorderRadius.circular(50)
-        //               ),
-        //             ),
-        //         )
-        //       ],
-        //     ),
-        //   ),
-        // ),
         title: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -428,19 +404,6 @@ class HomePage extends StatelessWidget {
                         },
                       ),
                     ),
-                    // SizedBox(
-                    //   height: 120,
-                    //   child: ListView.builder(
-                    //     scrollDirection: Axis.horizontal,
-                    //     itemCount: 10,
-                    //     itemBuilder: (context, index) {
-                    //       return const Padding(
-                    //         padding: EdgeInsets.only(right: 17),
-                    //         child: SmallCartProduct(),
-                    //       );
-                    //     },
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
