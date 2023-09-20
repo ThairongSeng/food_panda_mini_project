@@ -4,7 +4,7 @@ import 'package:food_panda_flutter_ui_app/views/widgets/image_cart.dart';
 
 import '../widgets/advertisement_cart.dart';
 import '../widgets/cart_product.dart';
-import '../widgets/drawer_widget.dart';
+import 'drawer_widget.dart';
 import '../widgets/small_cart.dart';
 
 class HomePage extends StatelessWidget {
@@ -255,38 +255,49 @@ class HomePage extends StatelessWidget {
                                   color: Colors.white,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20))),
-                              child: const Column(
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsets.all(10.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                    padding: const EdgeInsets.all(10.0),
+                                    child:  Row(
                                       children: [
-                                        Text(
-                                          "pandasend",
-                                          style: TextStyle(
-                                              fontSize: 25,
-                                              fontWeight: FontWeight.bold),
+                                        const Expanded(
+                                          flex: 2,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "pandasend",
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold),
+                                              ),
+                                              Text(
+                                                "Send parcels in a tap",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w400),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                        Text(
-                                          "Send parcels in a tap",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400),
+                                         Expanded(
+                                           flex: 1,
+                                           child: Column(
+                                            children: [
+                                              Image.asset(
+                                                "assets/images/pandasend.png",
+                                                height: 80,
+                                              ),
+                                            ],
                                         ),
+                                         )
                                       ],
                                     ),
                                   ),
-                                  // Align(
-                                  //   alignment: Alignment.centerRight,
-                                  //   child: Image.asset(
-                                  //      "assets/images/food_panda.jpg",
-                                  //      height: 100,
-                                  //      width: 100,
-                                  //    ),
-                                  // ),
+
                                 ],
                               ),
                             ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_panda_flutter_ui_app/views/pages/detail_page.dart';
-import 'package:food_panda_flutter_ui_app/views/widgets/coffee_cart.dart';
+import 'package:food_panda_flutter_ui_app/views/pages/successful_page.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor:  Colors.grey[200],
         useMaterial3: true,
       ),
-      home: ProductDetailsPage()
+      home: const SuccessfulPage()
     );
   }
 }
