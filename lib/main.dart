@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_panda_flutter_ui_app/views/pages/successful_page.dart';
+import 'package:food_panda_flutter_ui_app/views/pages/home_page.dart';
 
 
 void main() {
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor:  Colors.grey[200],
         useMaterial3: true,
       ),
-      home: const SuccessfulPage()
+      home: const HomePage()
     );
   }
 }

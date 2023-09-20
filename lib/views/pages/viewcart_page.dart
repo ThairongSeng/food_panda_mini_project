@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:food_panda_flutter_ui_app/views/pages/checkout_page.dart';
+import 'package:food_panda_flutter_ui_app/views/pages/detail_page.dart';
 import 'package:food_panda_flutter_ui_app/views/widgets/popular_order_cart.dart';
 
-import 'detail_page.dart';
 
 class ViewCartPage extends StatefulWidget {
   const ViewCartPage({super.key});
@@ -19,7 +20,16 @@ class _ViewCartPageState extends State<ViewCartPage> {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         toolbarHeight: 70,
-        leading: const Icon(Icons.close, color: Colors.pinkAccent,size: 30,),
+        leading: GestureDetector(
+          onTap: (){
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ProductDetailsPage()));
+          },
+          child: const Icon(
+            Icons.close,
+            color: Colors.pinkAccent,
+            size: 30,
+          ),
+        ),
         title: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -99,7 +109,7 @@ class _ViewCartPageState extends State<ViewCartPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Expanded(flex: 1, child: Icon(Icons.add)),
+                      const Expanded(flex: 1, child: Icon(Icons.add_circle, color: Colors.pinkAccent, size: 30,)),
                       Expanded(
                         flex: 5,
                         child: Row(
@@ -317,7 +327,7 @@ class _ViewCartPageState extends State<ViewCartPage> {
                 color: Colors.white,
                 height: 100,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -366,7 +376,7 @@ class _ViewCartPageState extends State<ViewCartPage> {
       ),
       bottomNavigationBar: Container(
         width: double.infinity,
-        height: 120,
+        height: 110,
         decoration: const BoxDecoration(color: Colors.white),
         child: Column(
           children: [
@@ -400,44 +410,20 @@ class _ViewCartPageState extends State<ViewCartPage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ProductDetailsPage()));
+                        builder: (context) => const CheckoutPage()));
               },
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  decoration: const BoxDecoration(
-                      color: Colors.pinkAccent,
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  child: const Padding(
-                    padding: EdgeInsets.all(15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "1",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              fontSize: 18),
-                        ),
-                        Text(
-                          "View your cart",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18),
-                        ),
-                        Text(
-                          "\$ 2.25",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18),
-                        )
-                      ],
-                    ),
+              child: Container(
+                  width: MediaQuery.of(context).size.width * 0.95,
+                  decoration: BoxDecoration(
+                    color: Colors.pinkAccent,
+                    borderRadius: BorderRadius.circular(10)
                   ),
-                ),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
+                    child: Center(
+                        child: Text("Review payment and address", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),)
+                    ),
+                  )
               ),
             ),
           ],

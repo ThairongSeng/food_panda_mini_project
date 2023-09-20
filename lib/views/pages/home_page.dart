@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:food_panda_flutter_ui_app/views/pages/detail_page.dart';
 import 'package:food_panda_flutter_ui_app/views/widgets/image_cart.dart';
+import 'package:food_panda_flutter_ui_app/views/widgets/map_cart.dart';
 
 import '../widgets/advertisement_cart.dart';
 import '../widgets/cart_product.dart';
@@ -333,9 +335,14 @@ class HomePage extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           itemCount: 10,
                           itemBuilder: (context, index) {
-                            return const Padding(
-                              padding: EdgeInsets.only(right: 15, top: 10),
-                              child: CartProduct(),
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 15, top: 10),
+                              child: GestureDetector(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductDetailsPage()));
+                                  },
+                                  child: const CartProduct()
+                              ),
                             );
                           },
                         ),
@@ -367,9 +374,14 @@ class HomePage extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         itemCount: 10,
                         itemBuilder: (context, index) {
-                          return const Padding(
-                            padding: EdgeInsets.only(right: 15, top: 10),
-                            child: CartProduct(),
+                          return  Padding(
+                            padding: const EdgeInsets.only(right: 15, top: 10),
+                            child: GestureDetector(
+                                child: const CartProduct(),
+                              onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductDetailsPage()));
+                              },
+                            ),
                           );
                         },
                       ),
@@ -480,6 +492,56 @@ class HomePage extends StatelessWidget {
                           );
                         },
                       ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          //pick up at a restaurant near you
+          SliverToBoxAdapter(
+            child: Container(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Pick you at a restaurant near you",
+                      style:
+                      TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 20,),
+                    Stack(
+                      children: [
+                        Container(
+                          height: 340,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              fit: BoxFit.fitHeight,
+                                image: AssetImage('assets/images/map.jpg')),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 30.0),
+                          child: SizedBox(
+                            height: 260,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 10,
+                              itemBuilder: (context, index) {
+                                return const Padding(
+                                  padding: EdgeInsets.only(right: 15, top: 10),
+                                  child: CartMap(),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+
+                      ]
                     ),
                   ],
                 ),

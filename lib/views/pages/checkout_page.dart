@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_panda_flutter_ui_app/views/pages/successful_page.dart';
 
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({super.key});
@@ -385,7 +386,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
       ),
       bottomNavigationBar: Container(
         width: double.infinity,
-        height: 150,
+        height: 130,
         decoration: const BoxDecoration(color: Colors.white),
         child: Column(
           children: [
@@ -411,7 +412,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         ),
                         textScaleFactor: 0.5,
                       ),
-                      Text(
+                      const Text(
                         "See price breakdown",
                         style: TextStyle(color: Colors.pinkAccent),
                       )
@@ -425,43 +426,24 @@ class _CheckoutPageState extends State<CheckoutPage> {
               ),
             ),
             GestureDetector(
-              onTap: () {},
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  decoration: const BoxDecoration(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SuccessfulPage()));
+              },
+              child: Container(
+                  width: MediaQuery.of(context).size.width * 0.95,
+                  decoration: BoxDecoration(
                       color: Colors.pinkAccent,
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  child: const Padding(
-                    padding: EdgeInsets.all(15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "1",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              fontSize: 18),
-                        ),
-                        Text(
-                          "View your cart",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18),
-                        ),
-                        Text(
-                          "\$ 2.25",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18),
-                        )
-                      ],
-                    ),
+                      borderRadius: BorderRadius.circular(10)
                   ),
-                ),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
+                    child: Center(
+                        child: Text("Confirm address", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),)
+                    ),
+                  )
               ),
             ),
           ],

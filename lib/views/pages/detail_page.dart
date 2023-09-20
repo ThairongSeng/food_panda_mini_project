@@ -1,8 +1,11 @@
 
 import 'package:flutter/material.dart';
+import 'package:food_panda_flutter_ui_app/views/pages/viewcart_page.dart';
 import 'package:food_panda_flutter_ui_app/views/widgets/popular_cart.dart';
 
 class ProductDetailsPage extends StatefulWidget {
+  const ProductDetailsPage({super.key});
+
   @override
   _ProductDetailsPageState createState() => _ProductDetailsPageState();
 }
@@ -17,7 +20,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     "Light"
   ];
   int currentTabIndex = 0;
-  PageController _pageController = PageController(keepPage: true);
+  final PageController _pageController = PageController(keepPage: true);
 
   // Sample data for products in each category
   List<Product> popularProducts = [
@@ -267,43 +270,48 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ),
         ]),
       ),
-      bottomNavigationBar: Container(
-        width: double.infinity,
-        height: 80,
-        decoration: const BoxDecoration(color: Colors.white),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Container(
-            decoration: const BoxDecoration(
-                color: Colors.pinkAccent,
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-            child: const Padding(
-              padding: EdgeInsets.all(15.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "1",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 18),
-                  ),
-                  Text(
-                    "View your cart",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
-                  ),
-                  Text(
-                    "\$ 2.25",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
-                  )
-                ],
+      bottomNavigationBar: GestureDetector(
+        onTap: (){
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ViewCartPage()));
+        },
+        child: Container(
+          width: double.infinity,
+          height: 80,
+          decoration: const BoxDecoration(color: Colors.white),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+              decoration: const BoxDecoration(
+                  color: Colors.pinkAccent,
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              child: const Padding(
+                padding: EdgeInsets.all(15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "1",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 18),
+                    ),
+                    Text(
+                      "View your cart",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
+                    ),
+                    Text(
+                      "\$ 2.25",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
@@ -359,7 +367,7 @@ class ProductSection extends StatelessWidget {
   final List<Product> products;
   final bool isGridView;
 
-  ProductSection({
+  const ProductSection({super.key,
     required this.title,
     required this.products,
     required this.isGridView,
@@ -396,7 +404,6 @@ class ProductSection extends StatelessWidget {
                 },
               )
             else
-              for (var product in products)
                 Container(
                   width: double.infinity,
                   height: 150,

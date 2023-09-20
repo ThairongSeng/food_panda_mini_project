@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:food_panda_flutter_ui_app/views/pages/checkout_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:lottie/lottie.dart';
 
@@ -26,8 +27,11 @@ class _SuccessfulPageState extends State<SuccessfulPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         toolbarHeight: 80,
-        leading: const Icon(
-          Icons.close,
+        leading: IconButton(
+          onPressed: (){
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const CheckoutPage()));
+          },
+          icon: const Icon(Icons.close),
           color: Colors.pinkAccent,
         ),
         title: const Column(
@@ -287,13 +291,13 @@ class _SuccessfulPageState extends State<SuccessfulPage> {
                                   fontSize: 23, fontWeight: FontWeight.bold))
                         ],
                       ),
-                      const SizedBox(
+                      SizedBox(
                         height: 15,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                          Text(
                             "Delivery fee",
                             style:
                                 TextStyle(fontSize: 17, color: Colors.black54),
@@ -304,10 +308,10 @@ class _SuccessfulPageState extends State<SuccessfulPage> {
                           )
                         ],
                       ),
-                      const SizedBox(
+                      SizedBox(
                         height: 15,
                       ),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("Incl. Tax",
@@ -319,10 +323,10 @@ class _SuccessfulPageState extends State<SuccessfulPage> {
                           )
                         ],
                       ),
-                      const SizedBox(
+                      SizedBox(
                         height: 15,
                       ),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("Voucher: hellopanda",
@@ -370,6 +374,7 @@ class _SuccessfulPageState extends State<SuccessfulPage> {
                                 fontSize: 23, fontWeight: FontWeight.bold),
                           )
                       ),
+                      SizedBox(height: 10,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
