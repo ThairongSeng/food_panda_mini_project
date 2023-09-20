@@ -31,7 +31,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   List<Product> coffeeProducts = [
     Product(name: "Coffee Product 1", description: "Description of Coffee Product 1."),
     Product(name: "Coffee Product 2", description: "Description of Coffee Product 2."),
-    
 
   ];
 
@@ -404,6 +403,7 @@ class ProductSection extends StatelessWidget {
                 },
               )
             else
+              for(var product in products)
                 Container(
                   width: double.infinity,
                   height: 150,
