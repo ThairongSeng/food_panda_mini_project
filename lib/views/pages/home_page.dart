@@ -1,16 +1,42 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:food_panda_flutter_ui_app/views/pages/detail_page.dart';
+import 'package:food_panda_flutter_ui_app/data/response/status.dart';
+import 'package:food_panda_flutter_ui_app/models/response/RestaurantModel.dart';
+import 'package:food_panda_flutter_ui_app/viewmodel/restaurant_viewmodel.dart';
+import 'package:food_panda_flutter_ui_app/views/add%20restaurant/add_restaurant.dart';
 import 'package:food_panda_flutter_ui_app/views/widgets/image_cart.dart';
 import 'package:food_panda_flutter_ui_app/views/widgets/map_cart.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/advertisement_cart.dart';
 import '../widgets/cart_product.dart';
 import 'drawer_widget.dart';
 import '../widgets/small_cart.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+
+  final _restaurantViewModel = RestaurantViewModel();
+
+  late final AnimationController animationController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _restaurantViewModel.getAllRestaurant();
+    animationController =
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 1000))
+          ..repeat();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +166,7 @@ class HomePage extends StatelessWidget {
           //Groceries
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.all(15),
               child: SizedBox(
                 height: 320,
                 child: Row(
@@ -262,44 +288,45 @@ class HomePage extends StatelessWidget {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.all(10.0),
-                                    child:  Row(
+                                    child: Row(
                                       children: [
                                         const Expanded(
                                           flex: 2,
                                           child: Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 "pandasend",
                                                 style: TextStyle(
                                                     fontSize: 20,
-                                                    fontWeight: FontWeight.bold),
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
                                               Text(
                                                 "Send parcels in a tap",
                                                 style: TextStyle(
                                                     fontSize: 16,
-                                                    fontWeight: FontWeight.w400),
+                                                    fontWeight:
+                                                        FontWeight.w400),
                                               ),
                                             ],
                                           ),
                                         ),
-                                         Expanded(
-                                           flex: 1,
-                                           child: Column(
+                                        Expanded(
+                                          flex: 1,
+                                          child: Column(
                                             children: [
                                               Image.asset(
                                                 "assets/images/pandasend.png",
                                                 height: 80,
                                               ),
                                             ],
-                                        ),
-                                         )
+                                          ),
+                                        )
                                       ],
                                     ),
                                   ),
-
                                 ],
                               ),
                             ),
@@ -313,48 +340,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
 
-          //Order it again
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 15.0),
-              child: Container(
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Order it again",
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 240,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 10,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 15, top: 10),
-                              child: GestureDetector(
-                                  onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductDetailsPage()));
-                                  },
-                                  child: const CartProduct()
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-
-          //Popular restaurants
+          //Popular Restaurant
           SliverToBoxAdapter(
             child: Container(
               color: Colors.white,
@@ -370,20 +356,36 @@ class HomePage extends StatelessWidget {
                     ),
                     SizedBox(
                       height: 240,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 10,
-                        itemBuilder: (context, index) {
-                          return  Padding(
-                            padding: const EdgeInsets.only(right: 15, top: 10),
-                            child: GestureDetector(
-                                child: const CartProduct(),
-                              onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductDetailsPage()));
-                              },
-                            ),
-                          );
-                        },
+                      child: ChangeNotifierProvider(
+                        create: (context) => _restaurantViewModel,
+                        child: Consumer<RestaurantViewModel>(
+                          builder: (context, viewModel, _) {
+                            switch (viewModel.response.status) {
+                              case Status.LOADING:
+                                return const Center(child: CircularProgressIndicator());
+                              case Status.COMPLETED:
+                                RestaurantModel restaurantModel =
+                                    viewModel.response.data!;
+                                return ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: restaurantModel.data.length,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: 15, top: 10),
+                                      child: CartProduct(
+                                        restaurant: restaurantModel.data[index],
+                                      ),
+                                    );
+                                  },
+                                );
+                              case Status.ERROR:
+                                return const Text("Got error");
+                              default:
+                                return const Text("Default");
+                            }
+                          },
+                        ),
                       ),
                     ),
                   ],
@@ -407,22 +409,17 @@ class HomePage extends StatelessWidget {
                           TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
-                      height: 240,
-                      child: ListView.builder(
+                      height: 220,
+                      child: GridView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: 10,
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                        ),
+                        itemCount: 18,
                         itemBuilder: (context, index) {
                           return const Padding(
-                            padding: EdgeInsets.only(right: 20, top: 10),
-                            child: Column(
-                              children: [
-                                SmallCartProduct(),
-                                SizedBox(
-                                  height: 25,
-                                ),
-                                SmallCartProduct()
-                              ],
-                            ),
+                            padding: EdgeInsets.only(right: 30, top: 10),
+                            child: SmallCartProduct()
                           );
                         },
                       ),
@@ -433,38 +430,6 @@ class HomePage extends StatelessWidget {
             ),
           ),
 
-          //Recommended for you
-          SliverToBoxAdapter(
-            child: Container(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Recommended for you",
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 240,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 10,
-                        itemBuilder: (context, index) {
-                          return const Padding(
-                            padding: EdgeInsets.only(right: 15, top: 10),
-                            child: CartProduct(),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
 
           //your daily deals
           SliverToBoxAdapter(
@@ -511,71 +476,37 @@ class HomePage extends StatelessWidget {
                     const Text(
                       "Pick you at a restaurant near you",
                       style:
-                      TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 20,),
-                    Stack(
-                      children: [
-                        Container(
-                          height: 340,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              fit: BoxFit.fitHeight,
-                                image: AssetImage('assets/images/map.jpg')),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 30.0),
-                          child: SizedBox(
-                            height: 260,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: 10,
-                              itemBuilder: (context, index) {
-                                return const Padding(
-                                  padding: EdgeInsets.only(right: 15, top: 10),
-                                  child: CartMap(),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-
-                      ]
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-
-          //New restaurant
-          SliverToBoxAdapter(
-            child: Container(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "New restaurants",
-                      style:
                           TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(
-                      height: 240,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 10,
-                        itemBuilder: (context, index) {
-                          return const Padding(
-                            padding: EdgeInsets.only(right: 15, top: 10),
-                            child: CartProduct(),
-                          );
-                        },
-                      ),
+                    const SizedBox(
+                      height: 20,
                     ),
+                    Stack(children: [
+                      Container(
+                        height: 340,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              fit: BoxFit.fitHeight,
+                              image: AssetImage('assets/images/map.jpg')),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30.0),
+                        child: SizedBox(
+                          height: 260,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 10,
+                            itemBuilder: (context, index) {
+                              return const Padding(
+                                padding: EdgeInsets.only(right: 15, top: 10),
+                                child: CartMap(),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ]),
                   ],
                 ),
               ),
@@ -624,16 +555,24 @@ class HomePage extends StatelessWidget {
               delegate: SliverChildBuilderDelegate(
             (context, index) {
               return Container(
-                color: Colors.white,
+                  color: Colors.white,
                   child: const Padding(
                     padding: EdgeInsets.symmetric(vertical: 8.0),
                     child: AdvertiseCart(),
-                  )
-              );
+                  ));
             },
-            childCount: 5,
+            childCount: 2,
           )),
         ],
+      ),
+
+      //button add restaurant
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AddRestaurant(isUpdate: false,)));
+        },
+        backgroundColor: Colors.pinkAccent,
+        child: const Icon(Icons.add_circle, color: Colors.white,),
       ),
     );
   }

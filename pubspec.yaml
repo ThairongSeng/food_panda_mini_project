@@ -38,10 +38,21 @@ dependencies:
   lottie: ^2.6.0
   carousel_slider: ^4.0.0
   smooth_page_indicator: ^1.1.0
+  http: ^1.1.0
+  provider: ^6.0.5
+  image_picker:
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  adaptive_icon_background: "#F20C1B"
+  image_path: "assets/icons/download.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
